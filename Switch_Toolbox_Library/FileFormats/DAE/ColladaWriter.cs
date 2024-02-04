@@ -228,7 +228,7 @@ namespace Toolbox.Library.Collada
                     if (!HasEmission)
                         WriteMaterialColor("emission", new float[] { 0, 0, 0, 1 });
                     if (!HasSpecular)
-                        WriteMaterialColor("specular", new float[] { 0.5, 0.5, 0.5, 1 });
+                        WriteMaterialColor("specular", new float[] { 0.5f, 0.5f, 0.5f, 1 });
 
                     Writer.WriteEndElement();
                     Writer.WriteEndElement();
