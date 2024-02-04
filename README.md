@@ -2,7 +2,7 @@
 A fork of switch toolbox to fix a couple small issues. Feel free to pull request to add bugfixes, or use these fixes in your own fork
 (note, currently only a Single bug has been fixed, though if i'm ever bored, or more people contribute, there will be more)
 
-Everything past this point is the readme of the original fork:
+Everything past this point is the readme of the original:
 
 # Download
 https://github.com/KillzXGaming/Switch-Toolbox/releases
