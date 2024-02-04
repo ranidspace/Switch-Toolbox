@@ -1678,6 +1678,7 @@ namespace Toolbox
                 DAE.ExportSettings daesettings = new DAE.ExportSettings();
                 daesettings.SuppressConfirmDialog = true;
                 daesettings.ExportTextures = settings.ExportTextures;
+                daesettings.UseTextureChannelComponents = settings.UseTextureChannelComponents;
 
                 var textures = ((IExportableModelContainer)fileFormat).ExportableTextures.ToList();
                 foreach (var model in ((IExportableModelContainer)fileFormat).ExportableModels)
