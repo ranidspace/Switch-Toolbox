@@ -1,9 +1,8 @@
-# Switch-Toolbox
-A tool to edit many formats of Nintendo Switch, 3DS and Wii U. 
+# Switch-Toolbox-bugfixes
+A fork of switch toolbox to fix a couple small issues. Feel free to pull request to add bugfixes, or use these fixes in your own fork
+(note, currently only a Single bug has been fixed, though if i'm ever bored, or more people contribute, there will be more)
 
-## Notice
-
-**This tool is now archived and no longer in development!**
+Everything past this point is the readme of the original fork:
 
 # Download
 https://github.com/KillzXGaming/Switch-Toolbox/releases
