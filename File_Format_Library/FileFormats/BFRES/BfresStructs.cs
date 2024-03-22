@@ -1716,6 +1716,8 @@ namespace Bfres.Structs
                 Runtime.activeGame = Runtime.ActiveGame.BOTW;
             else if (ShaderName.Contains("Blitz_UBER"))
                 Runtime.activeGame = Runtime.ActiveGame.Splatoon2;
+            else if (ShaderName.Contains("Hoian_UBER"))
+                Runtime.activeGame = Runtime.ActiveGame.Splatoon3;
             else
                 Runtime.activeGame = Runtime.ActiveGame.KSA;
         }

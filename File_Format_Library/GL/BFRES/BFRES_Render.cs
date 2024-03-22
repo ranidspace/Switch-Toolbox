@@ -213,21 +213,24 @@ namespace FirstPlugin
 
                     for (int shp = 0; shp < models[m].shapes.Count; shp++)
                     {
-                        if (models[m].shapes[shp].GetFMAT().isTransparent)
+                        if (models[m].shapes[shp].GetFMAT().isTransparent || models[m].shapes[shp].GetFMAT().HasTransparencyMap)
                             transparent.Add(models[m].shapes[shp]);
                         else
                             opaque.Add(models[m].shapes[shp]);
                     }
+                    for (int shp = 0; shp < opaque.Count; shp++)
+                    {
+                        DrawModel(opaque[shp], models[m], shader, models[m].IsSelected);
+                    }
+                    GL.Enable(EnableCap.Blend);
+                    GL.BlendFunc((BlendingFactor)BlendingFactorSrc.SrcAlpha, (BlendingFactor)BlendingFactorDest.OneMinusSrcAlpha);
 
                     for (int shp = 0; shp < transparent.Count; shp++)
                     {
                         DrawModel(transparent[shp], models[m], shader, models[m].IsSelected);
                     }
+                    GL.Disable(EnableCap.Blend);
 
-                    for (int shp = 0; shp < opaque.Count; shp++)
-                    {
-                        DrawModel(opaque[shp], models[m], shader, models[m].IsSelected);
-                    }
                 }
             }
 
@@ -268,6 +271,7 @@ namespace FirstPlugin
             //Unused atm untill I do PBR shader
             shader.SetBoolToInt("HasMetalnessMap", mat.HasMetalnessMap);
             shader.SetBoolToInt("HasRoughnessMap", mat.HasRoughnessMap);
+            shader.SetBoolToInt("HasTransparencyMap", mat.HasTransparencyMap);
             shader.SetBoolToInt("HasMRA", mat.HasMRA);
         }
         private static void SetBoneUniforms(SF.Shader shader, FMDL fmdl, FSHP fshp)
@@ -759,6 +763,7 @@ namespace FirstPlugin
 
             shader.SetFloat("ao_density", 1);
             shader.SetFloat("shadow_density", 1);
+            shader.SetFloat("emission_intensity", 1);
             
             shader.SetFloat("normal_map_weight", 1);
 
@@ -802,6 +807,7 @@ namespace FirstPlugin
 
             SetUniformData(mat, shader, "ao_density");
             SetUniformData(mat, shader, "shadow_density");
+            SetUniformData(mat, shader, "emission_intensity");
             SetUniformData(mat, shader, "normal_map_weight");
 
             SetUniformData(mat, shader, "const_color0");

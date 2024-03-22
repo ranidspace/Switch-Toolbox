@@ -81,7 +81,7 @@ uniform float ao_density;
 uniform float emission_intensity;
 uniform vec4 fresnelParams;
 uniform vec4 base_color_mul_color;
-uniform vec3 emission_color;
+uniform vec4 emission_color;
 uniform vec3 specular_color;
 
 // Shader Options
@@ -157,7 +157,7 @@ BakedData ShadowMapBaked(sampler2D ShadowMap, sampler2D LightMap, vec2 texCoordB
 
 vec3 CalcBumpedNormal(vec3 normal, sampler2D normalMap, VertexAttributes vert, float texCoordIndex);
 //float AmbientOcclusionBlend(sampler2D BakeShadowMap, VertexAttributes vert, float ao_density);
-vec3 EmissionPass(sampler2D EmissionMap, float emission_intensity, VertexAttributes vert, float texCoordIndex, vec3 emission_color);
+vec3 EmissionPass(sampler2D EmissionMap, float emission_intensity, VertexAttributes vert, float texCoordIndex, vec4 emission_color);
 
 // Shader code adapted from learnopengl.com's PBR tutorial:
 // https://learnopengl.com/PBR/Theory
@@ -260,6 +260,7 @@ void main()
 	float roughness = 0.5;
     if (HasRoughnessMap == 1)
         roughness = texture(RoughnessMap, f_texcoord0).r;
+
 
 	float ao = 1;
     if (HasShadowMap == 1 && bake_shadow_type == 0 || UseAOMap == 1)
@@ -377,6 +378,12 @@ void main()
 		 float alpha = GetComponent(AlphaChannel, texture(DiffuseMap, f_texcoord0));
 		 fragColor.a = alpha;
 	 }
+    if (HasTransparencyMap == 1)
+    {
+        float alpha = texture(TransparencyMap, f_texcoord0).r;
+        fragColor.a = alpha;
+    }
+         
 
     if (renderVertColor == 1)
         fragColor *= min(vert.vertexColor, vec4(1));

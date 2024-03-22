@@ -851,11 +851,12 @@ namespace FirstPlugin
                         texture.Type = MatTexture.TextureType.Emission;
                     }
                 }
-                else if (Runtime.activeGame == Runtime.ActiveGame.Splatoon2)
+                else if (Runtime.activeGame == Runtime.ActiveGame.Splatoon2 || Runtime.activeGame == Runtime.ActiveGame.Splatoon3)
                 {
                     bool IsAlbedo0 = useSampler == "_a0";
                     bool IsNormal = useSampler == "_n0";
                     bool IsTeamColor = useSampler == "_cp0" || useSampler == "_su0";
+                    bool isTransparent = useSampler == "_o0" || useSampler == "_op0";
                     bool IsRoughness = useSampler == "_r0";
                     bool IsMetalness = useSampler == "_m0";
                     bool IsEmissive = useSampler == "_e0";
@@ -879,6 +880,10 @@ namespace FirstPlugin
                     if (IsTeamColor) {
                         m.HasTeamColorMap = true;
                         texture.Type = MatTexture.TextureType.TeamColor;
+                    }
+                    if (isTransparent) {
+                        m.HasTransparencyMap = true;
+                        texture.Type = MatTexture.TextureType.Transparency;
                     }
                     if (IsRoughness) {
                         m.HasRoughnessMap = true;

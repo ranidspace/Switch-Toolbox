@@ -1,6 +1,13 @@
 # Switch-Toolbox-bugfixes
 A fork of switch toolbox to fix a couple small issues. Feel free to pull request to add bugfixes, or use these fixes in your own fork
-(note, currently only a Single bug has been fixed, though if i'm ever bored, or more people contribute, there will be more)
+
+Note this only has been tested on Splatoon 3, support of previous games may be impacted
+
+Features fixed include:
+- Exporting to DAE now sets specular to 0.5 instead of 0
+- Batch exporting textures now respects "Use Texture Channel Swaps"
+- Opacity Maps now work for Splatoon 3
+- BFRES now supports rendering transparency
 
 Everything past this point is the readme of the original:
 

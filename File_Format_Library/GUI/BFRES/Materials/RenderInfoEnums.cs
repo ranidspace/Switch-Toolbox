@@ -93,6 +93,28 @@ namespace FirstPlugin
             public enum aging_type : int { simple, }
             public enum enable_miiverse_filter : int { off, on, }
         }
+        public class Splatoon3
+        {
+            public enum gsys_pass : int { no_setting, xlu_water, seal, }
+            public enum gsys_env_obj_set : int { TPS, }
+            public enum gsys_render_state_mode : int { mask, opaque, translucent, custom, }
+            public enum gsys_render_state_display_face : int { both, front, none, }
+            public enum gsys_depth_test_func : int { lequal, always, less, }
+            public enum gsys_alpha_test_func : int { gequal, greater, }
+            public enum gsys_render_state_blend_mode : int { none, color, }
+            public enum gsys_color_blend_rgb_op : int { add, }
+            public enum gsys_color_blend_rgb_src_func : int { src_alpha, dst_alpha, src_color, }
+            public enum gsys_color_blend_rgb_dst_func : int { one_minus_src_alpha, one, zero, one_minus_src_color, }
+            public enum gsys_color_blend_alpha_op : int { add, src_minus_dst, }
+            public enum gsys_color_blend_alpha_src_func : int { one, }
+            public enum gsys_color_blend_alpha_dst_func : int { zero, }
+            public enum gsys_bake_normal_map : int { default0, }
+            public enum gsys_bake_emission_map : int { default0, _e0, }
+            public enum gsys_bake_group : int { group1, none, group2, group3, group4, }
+            public enum gsys_bake_uv_unite : int { none, }
+            public enum gsys_bake_option : int { none, option1, }
+            public enum dynamic_alpha_fadeout : int { off, overlook, blend_vr, }
+        }
         public class BOTW
         {
             public enum gsys_priority_hint : int { npc, player, field_ground, effect, vr, object0, field_wall, none, }

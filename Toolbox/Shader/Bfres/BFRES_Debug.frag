@@ -343,6 +343,18 @@ void main()
         }
 		else
         {
+            fragColor = vec4(vec3(0),1);
+        }
+    }
+    else if (renderType == 19) //Transparency
+    {
+	    if (HasTransparencyMap == 1)
+        {
+		    vec3 opa = texture(TransparencyMap, displayTexCoord).rgb;
+            fragColor = vec4(opa,1);
+        }
+		else
+        {
             fragColor = vec4(1);
         }
     }

@@ -329,6 +329,7 @@ namespace Toolbox.Library
             MK8D,
             ARMs,
             Splatoon2,
+            Splatoon3,
             BOTW,
             KSA,
             Bezel,
@@ -395,6 +396,7 @@ namespace Toolbox.Library
             RoughnessMap = 16,
             SubSurfaceScatteringMap = 17,
             EmmissionMap = 18,
+            TransparencyMap = 19,
         }
         public enum UVChannel
         {

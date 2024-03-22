@@ -87,6 +87,8 @@ namespace FirstPlugin
                 members = typeof(RenderInfoEnums.BOTW).GetMembers();
             else if (Runtime.activeGame == Runtime.ActiveGame.Splatoon2)
                 members = typeof(RenderInfoEnums.Splatoon2).GetMembers();
+            else if (Runtime.activeGame == Runtime.ActiveGame.Splatoon3)
+                members = typeof(RenderInfoEnums.Splatoon3).GetMembers();
             else
                 members = typeof(RenderInfoEnums.MK8D).GetMembers();
 

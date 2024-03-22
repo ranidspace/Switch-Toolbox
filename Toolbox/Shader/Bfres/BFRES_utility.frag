@@ -55,7 +55,7 @@ vec3 SpecularPass(vec3 I, vec3 normal, int HasSpecularMap, sampler2D SpecularMap
     return result * vec3(intensity);
 }
 
-vec3 EmissionPass(sampler2D EmissionMap, float emission_intensity, VertexAttributes vert, float texCoordIndex, vec3 emission_color)
+vec3 EmissionPass(sampler2D EmissionMap, float emission_intensity, VertexAttributes vert, float texCoordIndex, vec4 emission_color)
 {
     vec3 result = vec3(0);
 
@@ -71,7 +71,7 @@ vec3 EmissionPass(sampler2D EmissionMap, float emission_intensity, VertexAttribu
     // if (Luminance(emission.rgb) < 0.01)
     //     result += vec3(emission_intensity) * emission_color;
 
-    result += emission.rgb;
+    result += emission.rgb * vec3(emission_color) * emission_intensity;
 
     return result;
 }
