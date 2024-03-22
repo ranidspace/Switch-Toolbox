@@ -79,6 +79,9 @@ uniform sampler2D brdfLUT;
 uniform float normal_map_weight;
 uniform float ao_density;
 uniform float emission_intensity;
+uniform float roughness;
+uniform float metalness;
+uniform vec4 albedo_color;
 uniform vec4 fresnelParams;
 uniform vec4 base_color_mul_color;
 uniform vec4 emission_color;
@@ -167,14 +170,14 @@ vec3 FresnelSchlick(float cosTheta, vec3 F0)
     return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
 }
 
-vec3 FresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
+vec3 FresnelSchlickRoughness(float cosTheta, vec3 F0, float roughnessval)
 {
-    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
+    return F0 + (max(vec3(1.0 - roughnessval), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }
 
-float DistributionGGX(vec3 N, vec3 H, float roughness)
+float DistributionGGX(vec3 N, vec3 H, float roughnessval)
 {
-    float a      = roughness*roughness;
+    float a      = roughnessval*roughnessval;
     float a2     = a*a;
     float NdotH  = max(dot(N, H), 0.0);
     float NdotH2 = NdotH*NdotH;
@@ -186,9 +189,9 @@ float DistributionGGX(vec3 N, vec3 H, float roughness)
     return num / denom;
 }
 
-float GeometrySchlickGGX(float NdotV, float roughness)
+float GeometrySchlickGGX(float NdotV, float roughnessval)
 {
-    float r = (roughness + 1.0);
+    float r = (roughnessval + 1.0);
     float k = (r*r) / 8.0;
 
     float num   = NdotV;
@@ -197,12 +200,12 @@ float GeometrySchlickGGX(float NdotV, float roughness)
     return num / denom;
 }
 
-float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
+float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughnessval)
 {
     float NdotV = max(dot(N, V), 0.0);
     float NdotL = max(dot(N, L), 0.0);
-    float ggx2  = GeometrySchlickGGX(NdotV, roughness);
-    float ggx1  = GeometrySchlickGGX(NdotL, roughness);
+    float ggx2  = GeometrySchlickGGX(NdotV, roughnessval);
+    float ggx1  = GeometrySchlickGGX(NdotL, roughnessval);
 
     return ggx1 * ggx2;
 }
@@ -252,15 +255,25 @@ void main()
 		albedo.g = GetComponent(GreenChannel, DiffuseTex);
 		albedo.b = GetComponent(BlueChannel, DiffuseTex);
 	}
+    else
+    {
+        albedo.r = albedo_color.r;
+        albedo.g = albedo_color.g;
+        albedo.b = albedo_color.b;
+    }
 
 	float metallic = 0;
     if (HasMetalnessMap == 1)
         metallic = texture(MetalnessMap, f_texcoord0).r;
+    else
+        metallic = metalness;
 
-	float roughness = 0.5;
+	float roughnessval = 0.5;
     if (HasRoughnessMap == 1)
-        roughness = texture(RoughnessMap, f_texcoord0).r;
-
+        roughnessval = texture(RoughnessMap, f_texcoord0).r;
+    else
+        roughnessval = roughness;
+        
 
 	float ao = 1;
     if (HasShadowMap == 1 && bake_shadow_type == 0 || UseAOMap == 1)
@@ -287,7 +300,7 @@ void main()
 	if (RenderAsLighting)
 	{
 	     metallic = 0;
-		 roughness = 1;
+		 roughnessval = 1;
 	}
 
 	float specIntensity = 1;
@@ -297,7 +310,7 @@ void main()
 	    //Note KSA has no way to tell if one gets unused or not because shaders :(
 		//Usually it's just metalness with roughness and works fine
 		metallic = texture(MRA, f_texcoord0).r;
-		roughness = texture(MRA, f_texcoord0).g;
+		roughnessval = texture(MRA, f_texcoord0).g;
 		ao = texture(MRA, f_texcoord0).b;
 		specIntensity = texture(MRA, f_texcoord0).a;
 	}
@@ -314,7 +327,7 @@ void main()
     vec3 R = reflect(I, N); // reflection
 
     vec3 f0 = mix(vec3(0.04), albedo, metallic); // dialectric
-    vec3 kS = FresnelSchlickRoughness(max(dot(N, H), 0.0), f0, roughness);
+    vec3 kS = FresnelSchlickRoughness(max(dot(N, H), 0.0), f0, roughnessval);
     
 
     BakedData ShadowBake = ShadowMapBaked(BakeShadowMap,BakeLightMap, f_texcoord1, f_texcoord2, int(bake_shadow_type),int(bake_light_type), int(bake_calc_type), N );
@@ -343,10 +356,10 @@ void main()
 //
     // Specular pass.
     int maxSpecularLod = 8;
-    vec3 specularIblColor = textureLod(specularIbl, R, roughness * maxSpecularLod).rgb;
+    vec3 specularIblColor = textureLod(specularIbl, R, roughnessval * maxSpecularLod).rgb;
 
 
-    vec2 envBRDF  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
+    vec2 envBRDF  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughnessval)).rg;
     vec3 brdfTerm = (kS * envBRDF.x + envBRDF.y);
    // vec3 specularTerm = specularIblColor * (kS * brdfTerm.x + brdfTerm.y) * specIntensity;
  //   vec3 specularTerm = specularIblColor * brdfTerm * specIntensity;

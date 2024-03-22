@@ -764,6 +764,8 @@ namespace FirstPlugin
             shader.SetFloat("ao_density", 1);
             shader.SetFloat("shadow_density", 1);
             shader.SetFloat("emission_intensity", 1);
+            shader.SetFloat("roughness", 1);
+            shader.SetFloat("metalness", 1);
             
             shader.SetFloat("normal_map_weight", 1);
 
@@ -781,6 +783,7 @@ namespace FirstPlugin
             shader.SetVector4("const_color0", new Vector4(1, 1, 1, 1));
             shader.SetVector4("base_color_mul_color", new Vector4(1, 1, 1, 1));
             shader.SetVector3("albedo_tex_color", new Vector3(1, 1, 1));
+            shader.SetVector3("albedo_color", new Vector3(1, 1, 1));
             shader.SetVector3("emission_color", new Vector3(1, 1, 1));
             shader.SetVector3("specular_color", new Vector3(1, 1, 1));
             
@@ -808,11 +811,14 @@ namespace FirstPlugin
             SetUniformData(mat, shader, "ao_density");
             SetUniformData(mat, shader, "shadow_density");
             SetUniformData(mat, shader, "emission_intensity");
+            SetUniformData(mat, shader, "roughness");
+            SetUniformData(mat, shader, "metalness");
             SetUniformData(mat, shader, "normal_map_weight");
 
             SetUniformData(mat, shader, "const_color0");
             SetUniformData(mat, shader, "base_color_mul_color");
             SetUniformData(mat, shader, "albedo_tex_color");
+            SetUniformData(mat, shader, "albedo_color");
             SetUniformData(mat, shader, "emission_color");
             SetUniformData(mat, shader, "specular_color");
 
