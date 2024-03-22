@@ -7,7 +7,7 @@ Features fixed include:
 - Exporting to DAE now sets specular to 0.5 instead of 0
 - Batch exporting textures now respects "Use Texture Channel Swaps"
 - Opacity Maps now work for Splatoon 3
-- BFRES now supports rendering transparency
+- BFRES now supports rendering transparency, and emission colours/intensity
 
 Everything past this point is the readme of the original:
 
