@@ -988,7 +988,7 @@ namespace Toolbox.Library.Collada
         diffuse,
         specular,
         emission,
-        bump,
+        transparency,
     }
 
     public enum TEXCOORD

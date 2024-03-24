@@ -759,7 +759,7 @@ namespace FirstPlugin
 
         private static void SetUniforms(FMAT mat, SF.Shader shader, FSHP m, int id)
         {
-             shader.SetBoolToInt("isTransparent", mat.isTransparent);
+            shader.SetBoolToInt("isTransparent", mat.isTransparent);
 
             shader.SetFloat("ao_density", 1);
             shader.SetFloat("shadow_density", 1);

@@ -78,7 +78,7 @@ uniform float ao_density;
 uniform float emission_intensity;
 uniform vec4 fresnelParams;
 uniform vec4 base_color_mul_color;
-uniform vec3 emission_color;
+uniform vec4 emission_color;
 uniform vec3 specular_color;
 
 // Shader Options
@@ -118,7 +118,7 @@ uniform int GreenChannel;
 uniform int BlueChannel;
 uniform int AlphaChannel;
 
-int isTransparent;
+uniform int isTransparent;
 
 struct VertexAttributes {
     vec3 objectPosition;
@@ -348,14 +348,22 @@ void main()
     }
     else if (renderType == 19) //Transparency
     {
-	    if (HasTransparencyMap == 1)
+        if (isTransparent == 1)
         {
-		    vec3 opa = texture(TransparencyMap, displayTexCoord).rgb;
-            fragColor = vec4(opa,1);
+            if (HasTransparencyMap == 1)
+            {
+                vec3 opa = texture(TransparencyMap, displayTexCoord).rgb;
+                fragColor = vec4(opa,1);
+            }
+            else 
+            {
+                vec3 opa = vec3(texture(DiffuseMap, displayTexCoord).a);
+                fragColor = vec4(opa,1);
+            }
         }
 		else
         {
-            fragColor = vec4(1);
+            fragColor = vec4(1,1,1,1);
         }
     }
 

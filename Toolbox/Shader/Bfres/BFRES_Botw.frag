@@ -67,7 +67,7 @@ uniform float ao_density;
 uniform float emission_intensity;
 uniform vec4 fresnelParams;
 uniform vec4 base_color_mul_color;
-uniform vec3 emission_color;
+uniform vec4 emission_color;
 uniform vec3 specular_color;
 
 // Shader Options
@@ -97,7 +97,7 @@ uniform int UseCavityMap;
 uniform int UseMetalnessMap;
 uniform int UseRoughnessMap;
 
-int isTransparent;
+uniform int isTransparent;
 
 uniform int renderDiffuse;
 uniform int renderSpecular;
@@ -130,7 +130,7 @@ const float PI = 3.14159265359;
 // Defined in BFRES_Utility.frag.
 vec3 CalcBumpedNormal(vec3 normal, sampler2D normalMap, VertexAttributes vert, float uking_texture2_texcoord);
 float AmbientOcclusionBlend(sampler2D BakeShadowMap, VertexAttributes vert, float ao_density);
-vec3 EmissionPass(sampler2D EmissionMap, float emission_intensity, VertexAttributes vert, float uking_texture2_texcoord, vec3 emission_color);
+vec3 EmissionPass(sampler2D EmissionMap, float emission_intensity, VertexAttributes vert, float uking_texture2_texcoord, vec4 emission_color);
 
 // Shader code adapted from learnopengl.com's PBR tutorial:
 // https://learnopengl.com/PBR/Theory
@@ -360,7 +360,7 @@ vec3 albedo = vec3(1);
     // Alpha calculations.
 	if (isTransparent == 1)
 	{
-		 float alpha = GetComponent(AlphaChannel, texture(DiffuseMap, f_texcoord0));
-		 fragColor.a = alpha;
+		float alpha = texture(DiffuseMap, f_texcoord0).a;
+		fragColor.a = alpha;
 	 }
 }

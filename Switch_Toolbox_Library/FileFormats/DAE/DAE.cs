@@ -168,8 +168,8 @@ namespace Toolbox.Library
                             texMap.Name = tex.Name;
                             if (tex.Type == STGenericMatTexture.TextureType.Diffuse)
                                 texMap.Type = PhongTextureType.diffuse;
-                            else if (tex.Type == STGenericMatTexture.TextureType.Normal)
-                                texMap.Type = PhongTextureType.bump;
+                            else if (tex.Type == STGenericMatTexture.TextureType.Transparency)
+                                texMap.Type = PhongTextureType.transparency;
                             else if (tex.Type == STGenericMatTexture.TextureType.Specular)
                                 texMap.Type = PhongTextureType.specular;
                             else if (tex.Type == STGenericMatTexture.TextureType.Emission)

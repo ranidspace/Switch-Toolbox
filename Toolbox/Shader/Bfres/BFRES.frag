@@ -63,7 +63,7 @@ uniform float shadow_density;
 uniform float emission_intensity;
 uniform vec4 fresnelParams;
 uniform vec4 base_color_mul_color;
-uniform vec3 emission_color;
+uniform vec4 emission_color;
 uniform vec3 specular_color;
 
 uniform vec4 const_color0;
@@ -143,7 +143,7 @@ BakedData ShadowMapBaked(sampler2D ShadowMap, sampler2D LightMap, vec2 texCoordB
 // Defined in BFRES_Utility.frag.
 vec3 CalcBumpedNormal(vec3 normal, sampler2D normalMap, VertexAttributes vert, float texCoordIndex);
 float AmbientOcclusionBlend(sampler2D BakeShadowMap, VertexAttributes vert, float ao_density);
-vec3 EmissionPass(sampler2D EmissionMap, float emission_intensity, VertexAttributes vert, float texCoordIndex, vec3 emission_color);
+vec3 EmissionPass(sampler2D EmissionMap, float emission_intensity, VertexAttributes vert, float texCoordIndex, vec4 emission_color);
 vec3 SpecularPass(vec3 I, vec3 normal, int HasSpecularMap, sampler2D SpecularMap, vec3 specular_color, VertexAttributes vert, float texCoordIndex, int UseSpecularColor);
 vec3 ReflectionPass(vec3 N, vec3 I, vec4 diffuseMap, vec3 Specular, float aoBlend, vec3 tintColor, VertexAttributes vert);
 
@@ -213,12 +213,20 @@ void main()
     // Default Shader
     vec4 alpha = texture2D(DiffuseMap, f_texcoord0).aaaa;
 
-    if (HasTransparencyMap == 1)
-    {
-        // TODO: Finish this
-        alpha = texture2D(TransparencyMap, f_texcoord0).rgba;
-        alpha *= 0.5;
-    }
+    if (isTransparent == 1)
+	{
+        if (HasTransparencyMap == 1)
+        {
+            float alpha = texture(TransparencyMap, f_texcoord0).r;
+            fragColor.a = alpha;
+        }
+        else
+        {
+            float alpha = texture(DiffuseMap, f_texcoord0).a;
+		    fragColor.a = alpha;
+        }
+		
+	 }
 
 	albedo *= halfLambert;
 
