@@ -764,6 +764,7 @@ namespace FirstPlugin
             shader.SetFloat("ao_density", 1);
             shader.SetFloat("shadow_density", 1);
             shader.SetFloat("emission_intensity", 1);
+            shader.SetFloat("const_value0", 1);
             shader.SetFloat("roughness", 1);
             shader.SetFloat("metalness", 1);
             
@@ -811,6 +812,7 @@ namespace FirstPlugin
             SetUniformData(mat, shader, "ao_density");
             SetUniformData(mat, shader, "shadow_density");
             SetUniformData(mat, shader, "emission_intensity");
+            SetUniformData(mat, shader, "const_value0");
             SetUniformData(mat, shader, "roughness");
             SetUniformData(mat, shader, "metalness");
             SetUniformData(mat, shader, "normal_map_weight");

@@ -69,12 +69,14 @@ uniform vec4 fresnelParams;
 uniform vec4 base_color_mul_color;
 uniform vec4 emission_color;
 uniform vec3 specular_color;
+uniform vec4 const_color0;
 
 // Shader Options
 uniform float uking_texture2_texcoord;
 uniform float bake_shadow_type;
 uniform float enable_fresnel;
 uniform float enable_emission;
+uniform float const_value0;
 
 // Texture Map Toggles
 uniform int HasDiffuse;
@@ -130,7 +132,7 @@ const float PI = 3.14159265359;
 // Defined in BFRES_Utility.frag.
 vec3 CalcBumpedNormal(vec3 normal, sampler2D normalMap, VertexAttributes vert, float uking_texture2_texcoord);
 float AmbientOcclusionBlend(sampler2D BakeShadowMap, VertexAttributes vert, float ao_density);
-vec3 EmissionPass(sampler2D EmissionMap, float emission_intensity, VertexAttributes vert, float uking_texture2_texcoord, vec4 emission_color);
+vec3 EmissionPass(sampler2D EmissionMap, float const_value0, VertexAttributes vert, float uking_texture2_texcoord, vec4 const_color0);
 
 // Shader code adapted from learnopengl.com's PBR tutorial:
 // https://learnopengl.com/PBR/Theory
@@ -341,7 +343,7 @@ vec3 albedo = vec3(1);
     outputColor += SpecularPass(albedo, N, H, R, metallic, specularMapIntensity) * renderSpecular;
     outputColor += FresnelPass(N, V) * renderFresnel;
     if (HasEmissionMap == 1 || enable_emission == 1) //Can be without texture map
-        outputColor.rgb += EmissionPass(EmissionMap, emission_intensity, vert, uking_texture2_texcoord, emission_color);
+        outputColor.rgb += EmissionPass(EmissionMap, const_value0, vert, uking_texture2_texcoord, const_color0 / 4); //looks better
 
     outputColor *= ao;
     outputColor *= (0.6 + shadow);
