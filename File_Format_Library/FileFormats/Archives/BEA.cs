@@ -28,7 +28,7 @@ namespace FirstPlugin
         public void ClearFiles() { files.Clear(); }
 
         public bool CanSave { get; set; }
-        public string[] Description { get; set; } = new string[] { "Bevel Engine Archive" };
+        public string[] Description { get; set; } = new string[] { "Bezel Engine Archive" };
         public string[] Extension { get; set; } = new string[] { "*.bea" };
         public string FileName { get; set; }
         public string FilePath { get; set; }
