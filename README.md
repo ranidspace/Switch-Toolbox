@@ -1,13 +1,13 @@
 # Switch-Toolbox-bugfixes
 A fork of switch toolbox to fix a couple small issues. Feel free to pull request to add bugfixes, or use these fixes in your own fork
 
-Note this only has been tested on Splatoon 3, support of previous games may be impacted
+Note this only has been tested on Splatoon 3 and BOTW
 
 Features fixed include:
 - Exporting to DAE now sets specular to 0.5 instead of 0
+- Dae files no longer have "bump" due to not being officially supported, and now have an extra "transparency" if an opacity texture is given
 - Batch exporting textures now respects "Use Texture Channel Swaps"
-- Opacity Maps now work for Splatoon 3
-- BFRES now supports rendering transparency, and emission colours/intensity
+- Opacity textures and Emission colours now work for Splatoon 3 and BOTW
 
 Everything past this point is the readme of the original:
 
