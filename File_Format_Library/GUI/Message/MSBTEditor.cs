@@ -45,8 +45,9 @@ namespace FirstPlugin.Forms
                 var item = listViewCustom1.SelectedItems[0];
                 if (item.Tag is MSBT.StringEntry)
                 {
+                    var textReformat = editTextTB.Text.Replace(@"\n", "\n").Replace(@"\0", "\0");
                     var msbtString = (MSBT.StringEntry)item.Tag;
-                    msbtString.SetText(editTextTB.Text, activeMessageFile.header.StringEncoding); 
+                    msbtString.SetText(textReformat, activeMessageFile.header.StringEncoding); 
                     hexEditor1.LoadData(msbtString.Data);
                 }
             }
@@ -122,8 +123,8 @@ namespace FirstPlugin.Forms
                 {
                     var msbtString = (MSBT.StringEntry)item.Tag;
 
-                    editTextTB.Text = msbtString.GetText(activeMessageFile.header.StringEncoding);
-                    originalTextTB.Text = msbtString.GetOriginalText(activeMessageFile.header.StringEncoding);
+                    editTextTB.Text = msbtString.GetText(activeMessageFile.header.StringEncoding).TrimEnd('\0').Replace("\n", @"\n").Replace("\0", @"\0");
+                    originalTextTB.Text = msbtString.GetOriginalText(activeMessageFile.header.StringEncoding).TrimEnd('\0').Replace("\n", @"\n").Replace("\0",@"\0");
                     hexEditor1.LoadData(msbtString.Data);
                 }
             }
