@@ -236,9 +236,19 @@ namespace Toolbox
             {
                 var root = new ExplorerFolder(dlg.SelectedPath);
                 ObjectEditor editor = new ObjectEditor();
+                editor.WindowState = FormWindowState.Maximized;
                 editor.MdiParent = this;
                 editor.Text = CheckTabDupes(root.Text);
-                editor.AddNode(root);
+                foreach (string str in Directory.GetDirectories(dlg.SelectedPath))
+                {
+                    if (File.GetAttributes(str).HasFlag(FileAttributes.Directory))
+                        editor.AddNode(new ExplorerFolder(str));
+                }
+                foreach (string str in Directory.GetFiles(dlg.SelectedPath))
+                {
+                    if (!File.GetAttributes(str).HasFlag(FileAttributes.Directory))
+                        editor.AddNode(new ExplorerFile(str));
+                }
                 editor.Show();
             }
         }

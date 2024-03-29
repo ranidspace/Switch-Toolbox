@@ -567,6 +567,7 @@
             this.stToolStrip1.ResumeLayout(false);
             this.stToolStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 
         }
 
