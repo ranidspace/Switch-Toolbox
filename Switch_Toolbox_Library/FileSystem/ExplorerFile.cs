@@ -84,14 +84,24 @@ namespace Toolbox.Library
         {
             if (newNode == null)
                 return;
-
-            int index = parentNode.Nodes.IndexOf(replaceNode);
-            parentNode.Nodes.RemoveAt(index);
-            parentNode.Nodes.Insert(index, newNode);
+            TreeView treeview = replaceNode.TreeView;
+            if (parentNode == null)
+            {
+                int index = replaceNode.Index;
+                treeview.Nodes.RemoveAt(index);
+                treeview.Nodes.Insert(index, newNode);
+            }
+            else
+            {
+                int index = parentNode.Nodes.IndexOf(replaceNode);
+                parentNode.Nodes.RemoveAt(index);
+                parentNode.Nodes.Insert(index, newNode);
+            }
 
             newNode.ImageKey = replaceNode.ImageKey;
             newNode.SelectedImageKey = replaceNode.SelectedImageKey;
             replaceNode.Text = newNode.Text;
+            treeview.SelectedNode = newNode;
 
             if (newNode is ISingleTextureIconLoader)
             {
