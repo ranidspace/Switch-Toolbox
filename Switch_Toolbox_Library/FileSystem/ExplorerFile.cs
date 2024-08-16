@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Toolbox.Library.Forms;
 using Toolbox.Library.IO;
+using static SFGraphics.GLObjects.GLObject;
+using System.Reflection;
 
 namespace Toolbox.Library
 {
@@ -61,6 +63,7 @@ namespace Toolbox.Library
 
             if (Utils.HasInterface(file.GetType(), typeof(IEditor<>)))
             {
+                OpenControlDialog(file);
             }
             else if (file is IArchiveFile)
             {
@@ -78,6 +81,44 @@ namespace Toolbox.Library
             else if (file is TreeNode) {
                 ReplaceNode(this.Parent, this, (TreeNode)file);
             }
+        }
+
+        private void OpenControlDialog(IFileFormat fileFormat)
+        {
+            UserControl form = GetEditorControl(fileFormat);
+
+            form.Text = (((IFileFormat)fileFormat).FileName);
+
+            var parentForm = LibraryGUI.GetActiveForm();
+
+            GenericEditorForm editorForm = new GenericEditorForm(true, form);
+            editorForm.FormClosing += (sender, e) => FormClosing(sender, e, fileFormat);
+            if (editorForm.ShowDialog() == DialogResult.OK)
+            {
+            }
+        }
+        private void FormClosing(object sender, EventArgs args, IFileFormat fileFormat)
+        {
+            if (((Form)sender).DialogResult != DialogResult.OK)
+                return;
+        }
+
+        public UserControl GetEditorControl(IFileFormat fileFormat)
+        {
+            Type objectType = fileFormat.GetType();
+            foreach (var inter in objectType.GetInterfaces())
+            {
+                if (inter.IsGenericType && inter.GetGenericTypeDefinition() == typeof(IEditor<>))
+                {
+                    System.Reflection.MethodInfo method = objectType.GetMethod("OpenForm");
+                    System.Reflection.MethodInfo methodFill = fileFormat.GetType().GetMethod("FillEditor");
+
+                    var control = (UserControl)method.Invoke(fileFormat, new object[0]);
+                    methodFill.Invoke(fileFormat, new object[1] { control });
+                    return control;
+                }
+            }
+            return null;
         }
 
         private static void ReplaceNode(TreeNode parentNode, TreeNode replaceNode, TreeNode newNode)
